@@ -28,4 +28,11 @@
   <!-- ros_control rrbot launch file -->
   <!--include file="$(find car)/launch/car_control.launch" /-->
 
+  <node name="leftcamera" pkg="image_view" type="image_view" respawn="false" output="screen">
+    <remap from="image" to="/multisense_sl/camera/left/image_raw" />
+  </node>
+
+  <node name="rightcamera" pkg="image_view" type="image_view" respawn="false" output="screen">
+    <remap from="image" to="/multisense_sl/camera/right/image_raw" />
+  </node>
 </launch>
