@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(orbslam2)
-
-## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+add_compile_options(-std=c++17)
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules) #Helps with searching for eigen
 
@@ -14,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  geometry_msgs
   message_filters
   cv_bridge	#required for opencv
   message_generation #required for messages and services
@@ -75,10 +74,11 @@ find_package(Pangolin REQUIRED)
 # )
 
 ## Generate added messages and services with any dependencies listed here
- generate_messages(
-   DEPENDENCIES
-   std_msgs  # Or other packages containing msgs
- )
+#generate_messages(
+#  DEPENDENCIES
+#  std_msgs  # Or other packages containing msgs
+#  geometry_msgs
+#)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -206,5 +206,5 @@ include_directories(
 # catkin_add_nosetests(test)
 
 include_directories(include/orbslam2 include/dbow2 include ${EIGEN3_INCLUDE_DIR} ${Pangolin_INCLUDE_DIRS})
-add_executable(stereo src/ros_stereo.cc)
+add_executable(stereo src/ros_stereo.cc src/ImageGrabber.cpp)
 target_link_libraries(stereo ${catkin_LIBRARIES} ${Pangolin_LIBRARIES} ${PROJECT_SOURCE_DIR}/lib/libg2o.so ${PROJECT_SOURCE_DIR}/lib/libDBoW2.so ${PROJECT_SOURCE_DIR}/lib/libORB_SLAM2.so)
