@@ -338,7 +338,7 @@
     </gazebo>
     
         <joint name="laser_base_mount_joint" type="fixed">
-            <origin xyz="0 0 0.05" rpy="0 0 0" /> 
+            <origin xyz="0 0 ${carHeight}" rpy="0 0 0" /> 
             <parent link="base_link"/>
             <child link="laser_base_link"/>
         </joint>
@@ -346,7 +346,7 @@
         <link name="laser_base_link" type="fixed">
             <inertial>
                 <mass value="0.1"/>
-                <origin xyz="0 0 0.0"/>
+                <origin xyz="0 0 ${carHeight}"/>
                 <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.1" iyz="0" izz="0.1"/>
             </inertial>
             
@@ -395,8 +395,8 @@
 
 	  <!-- Camera -->
 	  <joint name="camera_joint" type="fixed">
-	    <axis xyz="0 1 0" />
-	    <origin xyz="0 0 ${carHeight}" rpy="0 0 0"/>
+	    <axis xyz="0 0 0" />
+	    <origin xyz="1.1 0 ${carHeight*0.8}" rpy="0 0 0"/>
 	    <parent link="base_link"/>
 	    <child link="camera_link"/>
 	  </joint>
@@ -405,14 +405,14 @@
 	    <collision>
 	      <origin xyz="0 0 0" rpy="0 0 0"/>
 	      <geometry>
-		<box size="0.2 0.2 0.2"/>
+		<box size="0.05 0.05 0.05"/>
 	      </geometry>
 	    </collision>
 
 	    <visual>
 	      <origin xyz="0 0 0" rpy="0 0 0"/>
 	      <geometry>
-		<box size="0.2 0.2 0.2"/>
+		<box size="0.05 0.05 0.05"/>
 	      </geometry>
 	      <material name="red"/>
 	    </visual>
@@ -426,8 +426,8 @@
 
 	  <!-- GPS -->
 	  <joint name="gps_joint" type="fixed">
-	    <axis xyz="1 0 0" />
-	    <origin xyz="0 0 ${carHeight*2}" rpy="0 0 0"/>
+	    <axis xyz="0 0 0" />
+	    <origin xyz="0 0 ${carHeight*0.65}" rpy="0 0 0"/>
 	    <parent link="base_link"/>
 	    <child link="gps_link"/>
 	  </joint>
@@ -436,16 +436,16 @@
 	    <collision>
 	      <origin xyz="0 0 0" rpy="0 0 0"/>
 	      <geometry>
-		<box size="0.2 0.2 0.2"/>
+		<box size="0.05 0.05 0.05"/>
 	      </geometry>
 	    </collision>
 
 	    <visual>
-	      <origin xyz="1 0 0" rpy="0 0 0"/>
+	      <origin xyz="0 0 0" rpy="0 0 0"/>
 	      <geometry>
-		<box size="0.2 0.2 0.2"/>
+		<box size="0.05 0.05 0.05"/>
 	      </geometry>
-	      <material name="red"/>
+	      <material name="green"/>
 	    </visual>
 
 	    <inertial>
@@ -474,7 +474,8 @@
 			<drift>5.0 5.0 5.0</drift>
 			<gaussianNoise>0.1 0.1 0.1</gaussianNoise>
 			<velocityDrift>0 0 0</velocityDrift>
-			<velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise> 
+			<velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise>
+			<frameId></frameId>
 		</plugin>
 	</gazebo>
 

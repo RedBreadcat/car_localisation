@@ -36,5 +36,7 @@
     <remap from="image" to="/camera/right/image_raw" />
   </node>
 
+ <!--
   <include file="$(find orbslam2)/launch/slamgazebo.launch"/>
+ -->
 </launch>
