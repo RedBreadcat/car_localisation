@@ -1,6 +1,6 @@
-#An EKF instance that fuses odometry and IMU data and outputs an odom-frame state estimate
+#A UKF instance that fuses odometry and IMU data and outputs an odom-frame state estimate
 #Produces odom->base_link transformation which must not use GPS or SLAM
-ekf_se_odom:
+ukf_se_odom:
   frequency: 30
   sensor_timeout: 0.1
   two_d_mode: true
@@ -15,16 +15,16 @@ ekf_se_odom:
   base_link_frame: base_link
   world_frame: odom #Because a continuous source (IMU) is being used, this value must be the same as odom_frame
 
-  odom0: odometry/filtered #wrong?
-  odom0_config: [false, false, false,
-                 false, false, false,
-                 true,  true,  true,
-                 false, false, true,
-                 false, false, false]
-  odom0_queue_size: 10
-  odom0_nodelay: true
-  odom0_differential: false
-  odom0_relative: false
+#  odom0: odometry/filtered
+#  odom0_config: [false, false, false,
+#                 false, false, false,
+#                 true,  true,  true,
+#                 false, false, true,
+#                 false, false, false]
+#  odom0_queue_size: 10
+#  odom0_nodelay: true
+#  odom0_differential: false
+#  odom0_relative: false
 
   imu0: imu/data
   imu0_config: [false, false, false,
@@ -72,9 +72,10 @@ ekf_se_odom:
                                 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1.0,  0,
                                 0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1.0]
 
-#A second EKF instance that fuses the same data, but also fuses the transformed GPS data from the next node
-#Produces map-odom transform, but requires odom->base_link from before.
-ekf_se_map:
+#A second UKF instance that fuses the same data, but also fuses the transformed GPS data from the next node
+#Produces map->odom transform, but requires odom->base_link from before.
+#The desired output of the whole system seems to be map->base_link. Both these nodes therefore do map->odom->base_link
+ukf_se_map:
   frequency: 30
   sensor_timeout: 0.1
   two_d_mode: true
@@ -89,7 +90,7 @@ ekf_se_map:
   base_link_frame: base_link
   world_frame: map #If using GPS, need to set this to same as map_frame.
 
-  odom0: odometry/gps #Does not receive gps/fix. Receives odometry/gps which is a cartesian type from navsat_transform.
+  odom0: odometry/gps #Not designed to receive gps/fix. Receives odometry/gps which is a cartesian type from navsat_transform.
   odom0_config: [true,  true,  false,
                  false, false, false,
                  false, false, false,

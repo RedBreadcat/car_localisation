@@ -475,9 +475,10 @@
 			<gaussianNoise>0.1 0.1 0.1</gaussianNoise>
 			<velocityDrift>0 0 0</velocityDrift>
 			<velocityGaussianNoise>0.1 0.1 0.1</velocityGaussianNoise>
-			<frameId></frameId>
+			<frameId>odom</frameId>
 		</plugin>
 	</gazebo>
+
 
 	<gazebo>
 		<plugin name="imu_plugin" filename="libhector_gazebo_ros_imu.so">
