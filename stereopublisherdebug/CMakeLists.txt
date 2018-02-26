@@ -1,27 +1,21 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(orbslam2)
-add_compile_options(-std=c++17)
+project(stereopublisherdebug)
 
-LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules) #Helps with searching for eigen
+## Compile as C++11, supported in ROS Kinetic and newer
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-#NOTE: this find_package needs to be kept separate from the other two
 find_package(catkin REQUIRED COMPONENTS
+  cv_bridge
   roscpp
-  rospy
-  std_msgs
-  geometry_msgs
-  message_filters
-  cv_bridge	#required for opencv
-  message_generation #required for messages and services
+  sensor_msgs
 )
 
-## System dependencies are found with CMake's conventions. NOTE: can't merge these into one find_package call for unknown reason
-find_package(Eigen3 3.1.0 REQUIRED)
-find_package(Pangolin REQUIRED)
-find_package(OpenCV REQUIRED)
+## System dependencies are found with CMake's conventions
+# find_package(Boost REQUIRED COMPONENTS system)
+
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -74,11 +68,10 @@ find_package(OpenCV REQUIRED)
 # )
 
 ## Generate added messages and services with any dependencies listed here
-#generate_messages(
-#  DEPENDENCIES
-#  std_msgs  # Or other packages containing msgs
-#  geometry_msgs
-#)
+# generate_messages(
+#   DEPENDENCIES
+#   sensor_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -111,8 +104,8 @@ find_package(OpenCV REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES orbslam2
-#  CATKIN_DEPENDS other_catkin_pkg
+#  LIBRARIES stereopublisherdebug
+  CATKIN_DEPENDS cv_bridge roscpp sensor_msgs
 #  DEPENDS system_lib
 )
 
@@ -124,12 +117,12 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
 # include
- ${catkin_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/orbslam2.cpp
+#   src/${PROJECT_NAME}/stereoPublisherDebug.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -140,7 +133,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/orbslam2_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/stereoPublisherDebug_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -197,7 +190,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_orbslam2.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_stereoPublisherDebug.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
@@ -205,20 +198,6 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-include_directories(
-include/orbslam2
-include/dbow2
-include/g2o_custom
-include
-${EIGEN3_INCLUDE_DIR}
-${Pangolin_INCLUDE_DIRS})
 
-add_executable(stereo src/ros_stereo.cc src/ImageGrabber.cpp src/Converter.cc src/Frame.cc src/FrameDrawer.cc src/Initializer.cc src/KeyFrame.cc src/KeyFrameDatabase.cc src/LocalMapping.cc src/LoopClosing.cc src/Map.cc src/MapDrawer.cc src/MapPoint.cc src/Optimizer.cc src/ORBextractor.cc src/ORBmatcher.cc src/PnPsolver.cc src/Sim3Solver.cc src/System.cc src/Tracking.cc src/Viewer.cc)
-
-target_link_libraries(stereo
-${catkin_LIBRARIES}
-${Pangolin_LIBRARIES}
-${OpenCV_LIBRARIES}
-${PROJECT_SOURCE_DIR}/lib/libg2o.so
-${PROJECT_SOURCE_DIR}/lib/libDBoW2.so
-boost_serialization)
+add_executable(stereopublisherdebug src/main.cpp)
+target_link_libraries(stereopublisherdebug ${catkin_LIBRARIES})

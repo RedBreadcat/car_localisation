@@ -13,11 +13,11 @@ class ImageGrabber
         typedef message_filters::sync_policies::ApproximateTime<sensor_msgs::Image, sensor_msgs::Image> sync_pol;
 
     public:
-        ImageGrabber(ros::NodeHandle& nh, ORB_SLAM2::System* pSLAM);
+        ImageGrabber(ros::NodeHandle& nh, std::shared_ptr<ORB_SLAM2::System> pSLAM);
 
         void GrabStereo(const sensor_msgs::ImageConstPtr& msgLeft,const sensor_msgs::ImageConstPtr& msgRight);
 
-        ORB_SLAM2::System* mpSLAM;
+        std::shared_ptr<ORB_SLAM2::System> mpSLAM;
         bool do_rectify;
         cv::Mat M1l,M2l,M1r,M2r;
 

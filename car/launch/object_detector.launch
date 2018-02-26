@@ -1,0 +1,3 @@
+<launch>
+  <node name="objectdetector" pkg="car" type="objectdetector.py" output="screen"/>
+</launch>

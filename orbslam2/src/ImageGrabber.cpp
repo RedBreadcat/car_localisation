@@ -3,13 +3,13 @@
 
 using namespace std;
 
-ImageGrabber::ImageGrabber(ros::NodeHandle& nh, ORB_SLAM2::System* pSLAM)
+ImageGrabber::ImageGrabber(ros::NodeHandle& nh, shared_ptr<ORB_SLAM2::System> pSLAM)
 {
     mpSLAM = pSLAM;
     posePub = nh.advertise<geometry_msgs::PoseStamped>("pose", 100);
 
-    leftCamSub = make_unique<message_filters::Subscriber<sensor_msgs::Image>>(nh, "/camera/left/image_raw", 1);
-    rightCamSub = make_unique<message_filters::Subscriber<sensor_msgs::Image>>(nh, "/camera/right/image_raw", 1);
+    leftCamSub = make_unique<message_filters::Subscriber<sensor_msgs::Image>>(nh, "/camera/left/image_raw", 10);
+    rightCamSub = make_unique<message_filters::Subscriber<sensor_msgs::Image>>(nh, "/camera/right/image_raw", 10);
     sync = make_unique<message_filters::Synchronizer<sync_pol>>(sync_pol(10), *leftCamSub, *rightCamSub);
     sync->registerCallback(boost::bind(&ImageGrabber::GrabStereo, this, _1, _2));
 }
@@ -39,6 +39,8 @@ void ImageGrabber::GrabStereo(const sensor_msgs::ImageConstPtr& msgLeft,const se
         return;
     }
 
+    cout << "Processing: " << cv_ptrLeft->header.seq << endl;
+
     cv::Mat transformation;
     if (do_rectify)
     {
@@ -66,9 +68,9 @@ void ImageGrabber::GrabStereo(const sensor_msgs::ImageConstPtr& msgLeft,const se
         Eigen::Quaterniond eigenQuat(rotMatrix);    //Converts rotation matrix to quaternion
 
         geometry_msgs::PoseStamped poseMsg; //seq value is automatic
-        poseMsg.header.stamp = cv_ptrLeft->header.stamp;
-        poseMsg.header.frame_id = "1";    //todo
-        poseMsg.pose.position.x = transformation.at<double>(0, 3);
+        poseMsg.header.stamp = cv_ptrLeft->header.stamp;    //todo: is overflowing?
+        poseMsg.header.frame_id = "map";    //todo: need to think this through
+        poseMsg.pose.position.x = transformation.at<double>(0, 3);  //todo: translation not working as I expected
         poseMsg.pose.position.y = transformation.at<double>(1, 3);
         poseMsg.pose.position.z = transformation.at<double>(2, 3);
         poseMsg.pose.orientation.x = eigenQuat.x();

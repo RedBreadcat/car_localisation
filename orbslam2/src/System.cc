@@ -35,9 +35,7 @@ static bool has_suffix(const std::string &str, const std::string &suffix)
 namespace ORB_SLAM2
 {
 
-System::System(const string &strVocFile, const string &strSettingsFile, const eSensor sensor,
-               const bool bUseViewer, bool is_save_map_):mSensor(sensor), is_save_map(is_save_map_), mpViewer(static_cast<Viewer*>(NULL)), mbReset(false),
-        mbActivateLocalizationMode(false), mbDeactivateLocalizationMode(false)
+System::System(const string &strVocFile, const string &strSettingsFile, const eSensor sensor, const bool bUseViewer):mSensor(sensor), mpViewer(static_cast<Viewer*>(NULL)), mbReset(false), mbActivateLocalizationMode(false), mbDeactivateLocalizationMode(false)
 {
     // Output welcome message
     cout << endl <<
@@ -323,7 +321,7 @@ void System::Reset()
     mbReset = true;
 }
 
-void System::Shutdown()
+void System::Shutdown(bool saveMap)
 {
     mpLocalMapper->RequestFinish();
     mpLoopCloser->RequestFinish();
@@ -341,10 +339,16 @@ void System::Shutdown()
     {
         std::this_thread::sleep_for(std::chrono::microseconds(5000));
     }
-    if(mpViewer)
+
+    if (mpViewer)
+    {
         pangolin::BindToContext("ORB-SLAM2: Map Viewer");
-    if (is_save_map)
+    }
+
+    if (saveMap)
+    {
         SaveMap(mapfile);
+    }
 }
 
 void System::SaveTrajectoryTUM(const string &filename)
