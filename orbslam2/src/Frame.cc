@@ -82,7 +82,7 @@ Frame::Frame(const cv::Mat &imLeft, const cv::Mat &imRight, const double &timeSt
 
     N = mvKeys.size();
 
-    if(mvKeys.empty())
+    if (mvKeys.empty())
         return;
 
     UndistortKeyPoints();
@@ -94,7 +94,7 @@ Frame::Frame(const cv::Mat &imLeft, const cv::Mat &imRight, const double &timeSt
 
 
     // This is done only for the first Frame (or after a change in the calibration)
-    if(mbInitialComputations)
+    if (mbInitialComputations)
     {
         ComputeImageBounds(imLeft);
 
@@ -501,7 +501,7 @@ void Frame::ComputeStereoMatches()
     vector<pair<int, int> > vDistIdx;
     vDistIdx.reserve(N);
 
-    for(int iL=0; iL<N; iL++)
+    for (int iL=0; iL<N; iL++)
     {
         const cv::KeyPoint &kpL = mvKeys[iL];
         const int &levelL = kpL.octave;
@@ -510,13 +510,13 @@ void Frame::ComputeStereoMatches()
 
         const vector<size_t> &vCandidates = vRowIndices[vL];
 
-        if(vCandidates.empty())
+        if (vCandidates.empty())
             continue;
 
         const float minU = uL-maxD;
         const float maxU = uL-minD;
 
-        if(maxU<0)
+        if (maxU<0)
             continue;
 
         int bestDist = ORBmatcher::TH_HIGH;
@@ -549,7 +549,7 @@ void Frame::ComputeStereoMatches()
         }
 
         // Subpixel match by correlation
-        if(bestDist<thOrbDist)
+        if (bestDist<thOrbDist)
         {
             // coordinates in image pyramid at keypoint scale
             const float uR0 = mvKeysRight[bestIdxR].pt.x;
