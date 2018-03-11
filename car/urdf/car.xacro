@@ -31,11 +31,6 @@
 
     <!-- Main body -->
     <link name="base_link">
-        <inertial>
-            <mass value="0.2" />
-            <origin xyz="0 0 0" rpy="0 0 0" /> 
-            <inertia  ixx="0.2" ixy="0.0"  ixz="0.0"  iyy="0.2"  iyz="0.0"  izz="0.2" />
-        </inertial>
         <visual>
           <origin xyz="0 0 0" rpy="0 0 ${M_PI/2}"/>
           <geometry>
@@ -529,11 +524,33 @@
     </sensor>
   </gazebo>
 
+<!--Must be in same namespace as the spawner in car_control.launch-->
 <gazebo>
   <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-    <robotNamespace>/carcontrol</robotNamespace>
+    <robotNamespace>/car</robotNamespace>
   </plugin>
 </gazebo>
+
+<transmission name="LeftTransmission" type="SimpleTransmission">
+	<type>transmission_interface/SimpleTransmission</type>
+	<joint name="front_left_wheel_joint">
+		<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	</joint>
+	<actuator name="LeftMotor">
+		<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		<mechanicalReduction>1</mechanicalReduction>
+	</actuator>
+</transmission>
+<transmission name="RightTransmission" type="SimpleTransmission">
+	<type>transmission_interface/SimpleTransmission</type>
+	<joint name="front_right_wheel_joint">
+		<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+	</joint>
+	<actuator name="RightMotor">
+		<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		<mechanicalReduction>1</mechanicalReduction>
+	</actuator>
+</transmission>
 </robot>
 
 
