@@ -215,10 +215,15 @@ ${Pangolin_INCLUDE_DIRS})
 
 add_executable(stereo src/ros_stereo.cc src/ImageGrabber.cpp src/Converter.cc src/Frame.cc src/FrameDrawer.cc src/Initializer.cc src/KeyFrame.cc src/KeyFrameDatabase.cc src/LocalMapping.cc src/LoopClosing.cc src/Map.cc src/MapDrawer.cc src/MapPoint.cc src/Optimizer.cc src/ORBextractor.cc src/ORBmatcher.cc src/PnPsolver.cc src/Sim3Solver.cc src/System.cc src/Tracking.cc src/Viewer.cc)
 
+#Comment and uncomment the .so lines below based on the platform you're compiling for
+#If none match, you'll need to download g2o and dbow2 and copy their .so files into a new folder
+
 target_link_libraries(stereo
 ${catkin_LIBRARIES}
 ${Pangolin_LIBRARIES}
 ${OpenCV_LIBRARIES}
-${PROJECT_SOURCE_DIR}/lib/libg2o.so
-${PROJECT_SOURCE_DIR}/lib/libDBoW2.so
+${PROJECT_SOURCE_DIR}/lib/aarch64/libg2o.so
+${PROJECT_SOURCE_DIR}/lib/aarch64/libDBoW2.so
+#${PROJECT_SOURCE_DIR}/lib/x84-64_linux/libg2o.so
+#${PROJECT_SOURCE_DIR}/lib/x84-64_linux/libDBoW2.so
 boost_serialization)

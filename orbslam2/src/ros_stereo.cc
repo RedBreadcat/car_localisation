@@ -87,7 +87,8 @@ int main(int argc, char **argv)
 
 void ShutdownSLAMCallback(const std_msgs::Bool& msg)
 {
-    SLAM->Shutdown(true);
+    cout << "ORB-SLAM2 shutting down" << endl;
+    SLAM->Shutdown(msg.data);
 
     // Save camera trajectory
     SLAM->SaveKeyFrameTrajectoryTUM("/home/roby/slam/maps/logs/KeyFrameTrajectory_TUM_Format.txt");

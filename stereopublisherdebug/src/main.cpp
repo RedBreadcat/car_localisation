@@ -12,6 +12,8 @@
 using namespace std;
 using namespace cv;
 
+const string userFolder = "ubuntu";
+
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "stereopublisherdebug");
@@ -24,15 +26,15 @@ int main(int argc, char **argv)
     string folder = argv[1];
 	cout << "Image folder: " << folder << endl;
 
-    ifstream timeFile("/home/roby/slam/" + folder + "/times.txt");
+    ifstream timeFile("/home/" + userFolder + "/slam/" + folder + "/times.txt");
     string timeLine;
 
-    ros::Rate loop_rate(1); //frequency (hz)
+    ros::Rate loop_rate(2); //frequency (hz)
     int i = 0;
     while (ros::ok())
     {
-        Mat imageLeft = imread("/home/roby/slam/" + folder + "/image_0/" + to_string(i) + ".png", CV_LOAD_IMAGE_COLOR);
-        Mat imageRight = imread("/home/roby/slam/" + folder + "/image_1/" + to_string(i) + ".png", CV_LOAD_IMAGE_COLOR);
+        Mat imageLeft = imread("/home/" + userFolder + "/slam/" + folder + "/image_0/" + to_string(i) + ".png", CV_LOAD_IMAGE_COLOR);
+        Mat imageRight = imread("/home/" + userFolder + "/slam/" + folder + "/image_1/" + to_string(i) + ".png", CV_LOAD_IMAGE_COLOR);
 
         if (imageLeft.empty())
         {

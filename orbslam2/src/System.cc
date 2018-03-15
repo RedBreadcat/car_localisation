@@ -323,26 +323,35 @@ void System::Reset()
 
 void System::Shutdown(bool saveMap)
 {
+    cout << "Shutting down. Save map: " << saveMap << endl;
+    cout << "Requesting local mapper thread shutdown" << endl;
     mpLocalMapper->RequestFinish();
+    cout << "Requesting loop closer thread shutdown" << endl;
     mpLoopCloser->RequestFinish();
-    if(mpViewer)
+    if (mpViewer)
     {
+        cout << "Waiting for viewer to stop" << endl;
         mpViewer->RequestFinish();
-        while(!mpViewer->isFinished())
+        while (!mpViewer->isFinished())
         {
             std::this_thread::sleep_for(std::chrono::microseconds(5000));
         }
     }
 
     // Wait until all thread have effectively stopped
+    cout << "Waiting for threads to stop" << endl;
     while(!mpLocalMapper->isFinished() || !mpLoopCloser->isFinished() || mpLoopCloser->isRunningGBA())
     {
         std::this_thread::sleep_for(std::chrono::microseconds(5000));
     }
 
+    cout << "Threads stopped" << endl;
+
     if (mpViewer)
     {
-        pangolin::BindToContext("ORB-SLAM2: Map Viewer");
+        cout << "Binding viewer context" << endl;
+        //pangolin::BindToContext("ORB-SLAM2: Map Viewer");    //Doesn't work on TX2
+        cout << "Bind completed" << endl;
     }
 
     if (saveMap)
@@ -523,6 +532,7 @@ vector<cv::KeyPoint> System::GetTrackedKeyPointsUn()
 
 void System::SaveMap(const string &filename)
 {
+    cout << "Creating map file" << endl;
     std::ofstream out(filename, std::ios_base::binary);
     if (!out)
     {

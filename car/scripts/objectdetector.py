@@ -22,7 +22,7 @@ class ObjectDetector:
     plt.ion()
     self.fig = plt.figure(figsize=IMAGE_SIZE)
     self.bridge = CvBridge()
-    OBJECT_DETECTION_PATH = "/home/roby/git/models/research/object_detection"
+    OBJECT_DETECTION_PATH = "/home/ubuntu/git/models/research/object_detection"
     sys.path.append(OBJECT_DETECTION_PATH) #Need to append path with the object detection stuff
     print("Importing Tensorflow's Object Detector")
     from utils import label_map_util
@@ -35,7 +35,7 @@ class ObjectDetector:
     NUM_CLASSES = 90
 
     print("Opening model tar")
-    tar_file = tarfile.open("/home/roby/slam/object_detection/" + MODEL_FILE)
+    tar_file = tarfile.open("/home/ubuntu/slam/object_detection/" + MODEL_FILE)
     for file in tar_file.getmembers():
       print("Loaded: " + file.name)
       file_name = os.path.basename(file.name)

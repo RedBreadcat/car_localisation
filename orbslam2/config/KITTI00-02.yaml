@@ -67,4 +67,4 @@ Viewer.ViewpointF: 2000
 #--------------------------------------------------------------------------------------------
 # Map Parapeters
 #--------------------------------------------------------------------------------------------
-Map.mapfile: /home/roby/slam/maps/mapkitti.bin
+Map.mapfile: /home/ubuntu/slam/maps/mapkitti.bin
