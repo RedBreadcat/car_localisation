@@ -29,7 +29,9 @@ int main(int argc, char **argv)
     ifstream timeFile("/home/" + userFolder + "/slam/" + folder + "/times.txt");
     string timeLine;
 
-    ros::Rate loop_rate(2); //frequency (hz)
+    int camPublishFrequency;
+    n.getParam("camPublishFrequency", camPublishFrequency);
+    ros::Rate loop_rate(camPublishFrequency); //frequency (hz)
     int i = 0;
     while (ros::ok())
     {

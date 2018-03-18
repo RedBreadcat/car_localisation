@@ -3,5 +3,5 @@
 	<arg name="slamsettings"  default="$(find orbslam2)/config/KITTI00-02.yaml" />
 	<arg name="dorectify"  default="0" />
 	<node ns="orbslam2" name="orbslam2" pkg="orbslam2" type="stereo" args="$(arg vocab) $(arg slamsettings) $(arg dorectify)" output="screen" />
-	<include file="$(find stereopublisherdebug)/launch/kitti.launch"/>
+	<!--<include file="$(find stereopublisherdebug)/launch/kitti.launch"/>-->
 </launch>
