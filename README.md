@@ -30,7 +30,7 @@ Compiling them is as easy as going into their folder, entering "cmake ." then "m
 
 
 
-#How to install Zed camera driver
+# How to install Zed camera driver
 
 Driver is from here: https://github.com/stereolabs/zed-ros-wrapper
 
