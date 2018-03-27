@@ -1,3 +1,6 @@
+# REPO NO LONGER IN USE! See my other repos: car_localisation_dev, car_localisation_server, car_localisation_tx2
+
+
 NOTE: if you're doing a fresh install of everything, then install the latest Nvidia JetPack (full OS reflash required!!!). It means you probably won't need to do the weird TensorFlow install method below. Also will require the Zed SDK to be updated, and the Zed camera driver to be updated.
 It seems as though TensorFlow's repositories don't support the TX2, so follow these instructions if you're using the TX2: https://github.com/jetsonhacks/installTensorFlowJetsonTX
 Install the wheel file for Python 2.7 because that's what ROS supports
